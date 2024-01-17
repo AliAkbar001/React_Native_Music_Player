@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 
 import {setupPlayer, addTrack} from './musicPlayerService'
-import Controls from "./components/controls";
+import Controls from "./components/Controls";
+import MusicPlayer from "./screens/MusicPlayer";
 
 
 function App(): JSX.Element {
@@ -37,7 +38,7 @@ function App(): JSX.Element {
   return (
     <View style={styles.container}>
       <StatusBar barStyle={"light-content"} />
-      <Controls/>
+      <MusicPlayer/>
     </View>
   );
 }

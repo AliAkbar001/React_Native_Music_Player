@@ -1,6 +1,6 @@
-import { View, StyleSheet, Pressable, Image, Text } from 'react-native'
+import { View, StyleSheet, Pressable, Image } from 'react-native'
 import React from 'react'
-import TrackPlayer, { State, usePlaybackState } from 'react-native-track-player'
+import TrackPlayer, { usePlaybackState } from 'react-native-track-player'
 import PreviousIcon from '../assets/Previous.png'
 import NextIcon from '../assets/Next.png'
 import PauseIcon from '../assets/Pause.png'
@@ -13,13 +13,13 @@ export default function Controls() {
 
     const skipToPrevious = async()=>{ await TrackPlayer.skipToPrevious() }
     
-    const togglePlayback = async (playback: State) => {
-        const currentTrack = await TrackPlayer.getActiveTrack()
+    const togglePlayback = async () => {
+        const currentTrack = await TrackPlayer.getActiveTrackIndex()
         if(currentTrack !== null){
-            if(playback === State.Paused || playback === State.Ready){
-                await TrackPlayer.play()
-            }else{
+             if(playBackState.state === 'playing'){
                 await TrackPlayer.pause()
+            }else{ 
+                await TrackPlayer.play()
             }
         }
     }
@@ -29,8 +29,8 @@ export default function Controls() {
       <Pressable onPress={skipToPrevious}>
         <Image source={PreviousIcon} style={styles.image}/>
       </Pressable>
-      <Pressable onPress={() => togglePlayback(playBackState)}>
-        <Image source={playBackState === State.Playing ? PlayIcon : PauseIcon} style={styles.image}/>
+      <Pressable onPress={togglePlayback}>
+        <Image source={playBackState.state === 'playing' ? PauseIcon : PlayIcon} style={styles.image}/>
       </Pressable>
       <Pressable onPress={skipToNext}>
         <Image source={NextIcon} style={styles.image}/>
@@ -39,22 +39,19 @@ export default function Controls() {
   )
 }
 const styles = StyleSheet.create({
-    container: {
-      marginBottom: 56,
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'white',
-    },
-    image: {
-      width: 40,
-      height: 40,
-     
-      fontSize: 30,
-      fontWeight:'bold'
-    },
-    playButton: {
-      marginHorizontal: 24,
-    },
-  });
+  container: {
+    marginBottom: 56,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  image: {
+    width: 50,
+    height: 50,
+    margin: 10
+  },
+  playButton: {
+    marginHorizontal: 24,
+  },
+});
